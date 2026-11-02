@@ -1,0 +1,146 @@
+# ================================================================================================
+#  Pipi & Bibis  -  settings file   (pipibibs_settings.txt)
+#
+#  Keep this file next to pipibibs_play.exe. It is read ONCE when the game starts, so close the
+#  game, edit, save, and start it again. Lines starting with # are comments. Format:  key = value
+#  Values are not case sensitive. If you delete this file, a fresh one is written on the next start.
+# ================================================================================================
+
+
+# ------------------------------------------------------------------------------------------------
+#  GAME SPEED   (audio is NOT affected: music and sound effects keep their normal pitch and tempo)
+# ------------------------------------------------------------------------------------------------
+#  Percent of the original speed.  100 = original (60 frames per second).
+#  50 = half speed, 150 = one and a half, 200 = double.  Allowed range: 10 to 400.
+#  Note: the very fast settings need a fast PC, and sound effects can bunch up or be missed
+#  because the sound board still runs at its normal rate.
+speed = 120
+
+
+# ------------------------------------------------------------------------------------------------
+#  DIP SWITCH BANK A
+# ------------------------------------------------------------------------------------------------
+#  Turn the whole picture upside down (cocktail cabinet):   off / on
+#  (done by turning the finished picture 180 degrees; the game itself is told "normal screen".)
+flip_screen = off
+
+#  Test mode: starts the game's own service menu (INPUT CHECK / DIPSW DISPLAY / SOUND CHECK):   off / on
+#  Handy to see the DIP switches exactly as the game reads them. In that menu use the arrows and Z (button 1).
+service_mode = off
+
+#  Demo sounds: on = the attract mode plays sound.  off = the attract mode is silent.
+demo_sounds = on
+
+#  Coin slot A and coin slot B. Each takes 0, 1, 2 or 3. What the number means depends on "region"
+#  (see below): regions 0-5 use one coinage table, regions 6-7 another.
+#
+#     value | regions 0-5, coin A and B | regions 6-7, coin A  | regions 6-7, coin B
+#     ------+--------------------------+----------------------+---------------------
+#       0   | 1 coin  = 1 credit       | 1 coin  = 1 credit   | 1 coin = 2 credits
+#       1   | 1 coin  = 2 credits      | 2 coins = 1 credit   | 1 coin = 3 credits
+#       2   | 2 coins = 1 credit       | 3 coins = 1 credit   | 1 coin = 4 credits
+#       3   | 2 coins = 3 credits      | 4 coins = 1 credit   | 1 coin = 6 credits
+#
+#  (Coin A is the "5" key, coin B is the "6" key.)
+coin_a = 0
+coin_b = 0
+
+
+# ------------------------------------------------------------------------------------------------
+#  DIP SWITCH BANK B
+# ------------------------------------------------------------------------------------------------
+#  Difficulty:   normal / easy / hard / hardest
+difficulty = normal
+
+#  Number of heroes (lives) per credit:   1 / 2 / 3 / 5
+lives = 3
+
+#  Extra heroes (extend):
+#     200k-300k = first at 200,000 points, then every 300,000     (default)
+#     150k-200k = first at 150,000 points, then every 200,000
+#     200k-only = a single one, at 200,000 points
+#     none      = no extra heroes
+bonus_life = 200k-300k
+
+#  "Debug mode": DIP2-7 of the original board, labelled DEBUG MODE on the game's DIP screen.
+#  What it changes in play has not been investigated; leave it off unless you are curious.   off / on
+debug_mode = off
+
+
+# ------------------------------------------------------------------------------------------------
+#  REGION JUMPERS  (read once at power-on, so they take effect when the game starts)
+# ------------------------------------------------------------------------------------------------
+#  region: 0 - 7.   Which territory the board is set up for:
+#        0, 1  =  Hong Kong      (the "NOTICE" screen at power-on says "HONG KONG ONLY")
+#        2, 3, 4  =  U.S.A.
+#        5, 6, 7  =  Europe
+#  It also chooses the coinage table (regions 0-5 use the first, 6-7 the second, see coin_a / coin_b above)
+#  and changes some texts of the service screens. The original build of this port behaved like region 7.
+region = 7
+
+
+
+# ------------------------------------------------------------------------------------------------
+#  OPTIONAL GAME CHANGES
+# ------------------------------------------------------------------------------------------------
+#  skip_level_clear_scenes:   off / on
+#  When on, two things happen:
+#   1. Clearing a level takes you straight to the next one. Skipped: the picture that is uncovered
+#      behind the cloud effect after every level, and the longer timed picture scene that follows
+#      every fourth level. Dying ("try again") is not affected.
+#   2. As a safety net, the pictures of the women are drawn solid black wherever they still appear:
+#      the comic panel of the attract mode, the silhouette screens (attract mode and the start of a
+#      game), the pictures of the ending after the last level, and the portraits on the flipped cards of
+#      the screen wipe. Those screens show black instead (the text, the timer and the characters stay).
+#  Not skipped: the title and attract-mode screens (they are just shown with the pictures black) and
+#  the scenes of the ending after the last level (the game needs them to finish properly; they show
+#  the plain level or a black picture area).
+#  It works by fast-forwarding the game's own scene routine, so the next level starts exactly as it
+#  would have. No score is awarded inside those scenes (none of their code adds points), but their
+#  jingles and effects are skipped with them.
+skip_level_clear_scenes = on
+
+
+# ------------------------------------------------------------------------------------------------
+#  SAVE / LOAD GAME  (a snapshot of the whole game, written to a text file)
+# ------------------------------------------------------------------------------------------------
+#  Press save_key to save the game exactly as it is, and load_key to jump back to it later (even
+#  after closing and restarting the game, as long as the ROM files are the same).
+#  The window title shows "Game saved" / "Game loaded" for a few seconds.
+#  Saving and loading happen in the game's normal frame loop. During a fade or transition screen
+#  the game waits (up to 15 seconds) for it to come back, and the title says so.
+#  Keys: a letter, a digit, F1-F12, pageup, pagedown, home, end, insert, delete, tab, backspace,
+#  space, enter, or none to switch the key off.  Most of F1-F12 and many letters already do other
+#  things in this window, so the defaults are the digits 9 and 0 (top row of the keyboard).
+save_key = 9
+load_key = 0
+
+#  The file that is written / read. It lives in the same folder as this settings file. Change the
+#  name to keep several saves (restart the game after changing it), or to switch to another save.
+save_file = pipibibs_save.txt
+
+
+# ------------------------------------------------------------------------------------------------
+#  ADVANCED: raw switch bytes (optional - remove the leading # to use)
+# ------------------------------------------------------------------------------------------------
+#  Sets the whole 8-bit register at once (decimal or 0x hex). The named switches above are then applied
+#  on top, so leave them out of the file if you want the raw value to win. Bit layout:
+#     DSWA:  bit0 unused | bit1 flip screen (see note) | bit2 test mode | bit3 advertise sound OFF | bits4-5 coin A | bits6-7 coin B
+#     DSWB:  bits0-1 difficulty (0 normal, 1 easy, 2 hard, 3 hardest) | bits2-3 extend (0 = 200k+300k every, 1 = 150k+200k every,
+#            2 = 200k only, 3 = none) | bits4-5 heroes (0 = 3, 1 = 5, 2 = 2, 3 = 1) | bit6 debug mode | bit7 unused
+#     Note: bit1 of DSWA is applied as the "flip_screen" picture rotation, it is not sent to the game.
+#dswa_raw = 0x00
+#dswb_raw = 0x00
+
+#  Second region jumper pair (0 - 3): the game reads it in many places to pick alternate data tables.
+#  In my tests it changed nothing visible on the power-on notice, title or attract screens, and what it
+#  does during play has NOT been investigated. 3 is what this port has always used; leave it alone
+#  unless you want to experiment.
+#jumper_34 = 3
+
+# ------------------------------------------------------------------------------------------------
+#  SWAP PLAYERS   (off / on)
+# ------------------------------------------------------------------------------------------------
+#  on = the keys of player 1 (arrows, Z, X, 5 coin, 1 start) control player 2, and the keys of
+#  player 2 (W A S D, F, G, 6 coin, 2 start) control player 1.
+swap_players = off
